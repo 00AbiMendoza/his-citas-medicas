@@ -22,6 +22,17 @@
             </ul>
         </header>
 
+        <div class="mb-4 flex items-center gap-2">
+            <label for="filtro-doctor" class="text-sm font-medium text-slate-600">Doctor</label>
+            <select id="filtro-doctor" class="rounded-lg border-slate-300 text-sm shadow-sm focus:border-slate-500 focus:ring-slate-500">
+                <option value="">Todos los doctores</option>
+            </select>
+        </div>
+
+        <p class="mb-3 text-xs text-slate-500">
+            Haz clic y arrastra sobre el calendario para crear una cita. Arrastra un evento existente para reprogramarlo.
+        </p>
+
         <div class="rounded-xl bg-white p-3 shadow sm:p-5">
             <div id="calendario"></div>
         </div>
@@ -57,6 +68,56 @@
                     <dd id="detalle-estado" class="text-right font-medium"></dd>
                 </div>
             </dl>
+
+            <p id="detalle-error" class="mt-3 hidden rounded-lg bg-red-50 px-3 py-2 text-xs text-red-600"></p>
+
+            <div class="mt-5 flex flex-wrap gap-2">
+                <button type="button" data-estado="confirmada" class="btn-estado rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-blue-700">Confirmar</button>
+                <button type="button" data-estado="atendida" class="btn-estado rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-700">Marcar atendida</button>
+                <button type="button" data-estado="cancelada" class="btn-estado rounded-lg bg-red-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-red-700">Cancelar cita</button>
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal de creacion de cita --}}
+    <div id="modal-crear" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/50 p-4">
+        <div class="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
+            <div class="mb-4 flex items-start justify-between">
+                <h2 class="text-lg font-semibold text-slate-900">Nueva cita</h2>
+                <button type="button" id="cerrar-modal-crear" class="text-slate-400 hover:text-slate-600">&times;</button>
+            </div>
+
+            <form id="form-crear-cita" class="space-y-3 text-sm">
+                <div>
+                    <label for="crear-paciente" class="mb-1 block font-medium text-slate-600">Paciente</label>
+                    <select id="crear-paciente" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-slate-500 focus:ring-slate-500"></select>
+                </div>
+                <div>
+                    <label for="crear-doctor" class="mb-1 block font-medium text-slate-600">Doctor</label>
+                    <select id="crear-doctor" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-slate-500 focus:ring-slate-500"></select>
+                </div>
+                <div class="flex gap-3">
+                    <div class="flex-1">
+                        <label for="crear-inicio" class="mb-1 block font-medium text-slate-600">Inicio</label>
+                        <input type="datetime-local" id="crear-inicio" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-slate-500 focus:ring-slate-500">
+                    </div>
+                    <div class="flex-1">
+                        <label for="crear-fin" class="mb-1 block font-medium text-slate-600">Fin</label>
+                        <input type="datetime-local" id="crear-fin" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-slate-500 focus:ring-slate-500">
+                    </div>
+                </div>
+                <div>
+                    <label for="crear-motivo" class="mb-1 block font-medium text-slate-600">Motivo</label>
+                    <textarea id="crear-motivo" required rows="2" class="w-full rounded-lg border-slate-300 shadow-sm focus:border-slate-500 focus:ring-slate-500"></textarea>
+                </div>
+
+                <p id="crear-error" class="hidden rounded-lg bg-red-50 px-3 py-2 text-xs text-red-600"></p>
+
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" id="cancelar-crear" class="rounded-lg px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100">Cancelar</button>
+                    <button type="submit" class="rounded-lg bg-slate-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-slate-700">Guardar cita</button>
+                </div>
+            </form>
         </div>
     </div>
 </body>
