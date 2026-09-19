@@ -218,15 +218,32 @@ Probado manualmente en navegador contra `http://127.0.0.1:8002/`:
   (FullCalendar y el modal ahora formatean en UTC para que "09:00" en la API se muestre
   siempre como "09:00", sin depender de la zona horaria del navegador).
 
-> **Capturas de pantalla pendientes de agregar por el estudiante:** las pruebas de UI
-> anteriores se hicieron con el navegador integrado de esta sesión de Claude, que no tiene
-> forma de guardar capturas como archivos dentro del repositorio. Para completar el 0.50 de
-> "evidencia completa" con capturas reales, abre `http://127.0.0.1:8002/` (con
-> `docker compose up -d` y `php artisan serve` corriendo) en tu propio navegador y toma
-> capturas de: (1) vista de mes con eventos de colores, (2) modal de detalle, (3) modal de
-> "Nueva cita", (4) el mensaje de error 409 por conflicto de horario, (5) el resultado de un
-> drag & drop. Guárdalas en `docs/capturas/` y enlázalas aquí con
-> `![descripción](docs/capturas/archivo.png)`.
+### Capturas de pantalla
+
+**Vista de mes con eventos coloreados por estado:**
+
+![Vista de mes con colores por estado](docs/capturas/vista-mes.png)
+
+**Detalle de una cita al hacer clic sobre el evento:**
+
+![Modal de detalle de cita](docs/capturas/modal-detalle.png)
+
+**Modal "Nueva cita" al hacer clic sobre un día del calendario:**
+
+![Modal de creación de cita](docs/capturas/modal-crear-cita.png)
+
+**Validación de conflicto de horario (RQF-03/RQNF-07) mostrada en el propio formulario:**
+se intentó crear una cita para el Dr. Juan Pérez el 21/09/2026 9:00-9:30, horario que ya
+tiene ocupado con la cita de Luis Fernández. El servidor respondió 409 y el formulario lo
+muestra sin cerrarse ni perder los datos escritos:
+
+![Error 409 por conflicto de horario](docs/capturas/error-conflicto-409.png)
+
+**Resultado de reprogramar una cita con drag & drop:** la cita de Valeria Morales se
+arrastró del 17 de septiembre al 20 de septiembre; el cambio quedó persistido en la base de
+datos vía `PUT /api/citas/{id}`:
+
+![Cita reprogramada con drag and drop](docs/capturas/drag-and-drop.png)
 
 ---
 
