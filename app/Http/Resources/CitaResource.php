@@ -30,7 +30,9 @@ class CitaResource extends JsonResource
             'fecha_inicio' => $this->fecha_inicio?->toIso8601String(),
             'fecha_fin' => $this->fecha_fin?->toIso8601String(),
             'motivo' => $this->motivo,
-            'estado' => $this->estado,
+            'estado' => $this->estado->value,
+            'estado_label' => $this->estado->etiqueta(),
+            'color' => $this->estado->color(),
             'created_at' => $this->created_at?->toIso8601String(),
             'updated_at' => $this->updated_at?->toIso8601String(),
         ];

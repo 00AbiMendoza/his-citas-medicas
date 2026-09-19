@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Cita;
 
+use App\Enums\EstadoCita;
 use App\Http\Requests\ApiFormRequest;
 use Illuminate\Validation\Rule;
 
@@ -10,7 +11,7 @@ class UpdateEstadoCitaRequest extends ApiFormRequest
     public function rules(): array
     {
         return [
-            'estado' => ['required', 'string', Rule::in(['pendiente', 'confirmada', 'cancelada', 'atendida'])],
+            'estado' => ['required', 'string', Rule::enum(EstadoCita::class)],
         ];
     }
 
