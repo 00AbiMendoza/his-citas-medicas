@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Enums\EstadoCita;
+use App\Exceptions\CitaConflictoException;
 use App\Models\Cita;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -38,7 +40,9 @@ class CitaService
      */
     public function crear(array $datos): Cita
     {
-        $datos['estado'] ??= 'pendiente';
+        $datos['estado'] ??= EstadoCita::Pendiente->value;
+
+        $this->verificarDisponibilidad($datos['doctor_id'], $datos['fecha_inicio'], $datos['fecha_fin']);
 
         $cita = Cita::create($datos);
 
@@ -50,6 +54,10 @@ class CitaService
      */
     public function reprogramar(Cita $cita, array $datos): Cita
     {
+        $doctorId = $datos['doctor_id'] ?? $cita->doctor_id;
+
+        $this->verificarDisponibilidad($doctorId, $datos['fecha_inicio'], $datos['fecha_fin'], excluirCitaId: $cita->id);
+
         $cita->update($datos);
 
         return $cita->fresh(['paciente', 'doctor']);
@@ -57,8 +65,41 @@ class CitaService
 
     public function cambiarEstado(Cita $cita, string $estado): Cita
     {
-        $cita->update(['estado' => $estado]);
+        $estadoActual = $cita->estado;
+        $estadoNuevo = EstadoCita::from($estado);
+
+        if (! $estadoActual->puedeTransicionarA($estadoNuevo)) {
+            throw new CitaConflictoException(
+                "No se puede cambiar el estado de '{$estadoActual->etiqueta()}' a '{$estadoNuevo->etiqueta()}'."
+            );
+        }
+
+        $cita->update(['estado' => $estadoNuevo->value]);
 
         return $cita->fresh(['paciente', 'doctor']);
+    }
+
+    /**
+     * Valida en el servidor que no exista otra cita activa que se solape
+     * en horario para el mismo doctor (RQF-03, RQNF-07).
+     */
+    private function verificarDisponibilidad(
+        int $doctorId,
+        string $fechaInicio,
+        string $fechaFin,
+        ?int $excluirCitaId = null,
+    ): void {
+        $existeConflicto = Cita::where('doctor_id', $doctorId)
+            ->where('estado', '!=', EstadoCita::Cancelada->value)
+            ->where('fecha_inicio', '<', $fechaFin)
+            ->where('fecha_fin', '>', $fechaInicio)
+            ->when($excluirCitaId, fn ($query) => $query->where('id', '!=', $excluirCitaId))
+            ->exists();
+
+        if ($existeConflicto) {
+            throw new CitaConflictoException(
+                'Ya existe una cita activa para este doctor en el horario indicado.'
+            );
+        }
     }
 }
