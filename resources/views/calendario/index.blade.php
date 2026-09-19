@@ -4,14 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name') }}</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%230f766e'/%3E%3Cpath d='M16 8v16M8 16h16' stroke='white' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
     @vite(['resources/css/app.css', 'resources/js/calendario.js'])
 </head>
-<body class="bg-slate-100 text-slate-800 antialiased">
+<body class="bg-teal-50 text-slate-800 antialiased">
     <div class="mx-auto max-w-7xl px-4 py-6">
         <header class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-semibold text-slate-900">HIS · Control de Citas Médicas</h1>
-                <p class="text-sm text-slate-500">Calendario interactivo de citas del Sistema Hospitalario Integrado</p>
+                <h1 class="text-2xl font-semibold text-slate-900">Hospital Nuevo Horizonte · Control de Citas</h1>
+                <p class="text-sm text-slate-500">Sistema Hospitalario Integrado (HIS) — calendario interactivo de citas médicas</p>
             </div>
 
             <ul class="flex flex-wrap gap-3 text-xs">
@@ -24,7 +25,7 @@
 
         <div class="mb-4 flex items-center gap-2">
             <label for="filtro-doctor" class="text-sm font-medium text-slate-600">Doctor</label>
-            <select id="filtro-doctor" class="rounded-lg border-slate-300 text-sm shadow-sm focus:border-slate-500 focus:ring-slate-500">
+            <select id="filtro-doctor" class="rounded-lg border-slate-300 text-sm shadow-sm focus:border-teal-600 focus:ring-teal-600">
                 <option value="">Todos los doctores</option>
             </select>
         </div>
@@ -90,32 +91,32 @@
             <form id="form-crear-cita" class="space-y-3 text-sm">
                 <div>
                     <label for="crear-paciente" class="mb-1 block font-medium text-slate-600">Paciente</label>
-                    <select id="crear-paciente" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-slate-500 focus:ring-slate-500"></select>
+                    <select id="crear-paciente" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-teal-600 focus:ring-teal-600"></select>
                 </div>
                 <div>
                     <label for="crear-doctor" class="mb-1 block font-medium text-slate-600">Doctor</label>
-                    <select id="crear-doctor" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-slate-500 focus:ring-slate-500"></select>
+                    <select id="crear-doctor" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-teal-600 focus:ring-teal-600"></select>
                 </div>
                 <div class="flex gap-3">
                     <div class="flex-1">
                         <label for="crear-inicio" class="mb-1 block font-medium text-slate-600">Inicio</label>
-                        <input type="datetime-local" id="crear-inicio" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-slate-500 focus:ring-slate-500">
+                        <input type="datetime-local" id="crear-inicio" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-teal-600 focus:ring-teal-600">
                     </div>
                     <div class="flex-1">
                         <label for="crear-fin" class="mb-1 block font-medium text-slate-600">Fin</label>
-                        <input type="datetime-local" id="crear-fin" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-slate-500 focus:ring-slate-500">
+                        <input type="datetime-local" id="crear-fin" required class="w-full rounded-lg border-slate-300 shadow-sm focus:border-teal-600 focus:ring-teal-600">
                     </div>
                 </div>
                 <div>
                     <label for="crear-motivo" class="mb-1 block font-medium text-slate-600">Motivo</label>
-                    <textarea id="crear-motivo" required rows="2" class="w-full rounded-lg border-slate-300 shadow-sm focus:border-slate-500 focus:ring-slate-500"></textarea>
+                    <textarea id="crear-motivo" required rows="2" class="w-full rounded-lg border-slate-300 shadow-sm focus:border-teal-600 focus:ring-teal-600"></textarea>
                 </div>
 
                 <p id="crear-error" class="hidden rounded-lg bg-red-50 px-3 py-2 text-xs text-red-600"></p>
 
                 <div class="flex justify-end gap-2 pt-2">
                     <button type="button" id="cancelar-crear" class="rounded-lg px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-100">Cancelar</button>
-                    <button type="submit" class="rounded-lg bg-slate-900 px-4 py-1.5 text-sm font-medium text-white hover:bg-slate-700">Guardar cita</button>
+                    <button type="submit" class="rounded-lg bg-teal-700 px-4 py-1.5 text-sm font-medium text-white hover:bg-teal-800">Guardar cita</button>
                 </div>
             </form>
         </div>
